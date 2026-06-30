@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KaruMed — Prépa Médecine Guadeloupe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rose: #F2C4CE;
+      --bleu: #C4D4F2;
+      --dore: #C9A84C;
+      --fond: #FDF8F5;
+      --texte: #2C2C2C;
+      --texte-light: #666;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--fond); color: var(--texte); overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 1.2rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(253,248,245,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--dore); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--texte); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--dore); }
+    .nav-cta { background: var(--dore); color: white !important; padding: 0.5rem 1.2rem; border-radius: 50px; }
+
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 8rem 2rem 4rem; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(242,196,206,0.4) 0%, transparent 70%);
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(196,212,242,0.35) 0%, transparent 70%);
+    }
+    .hero-content {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3);
+      color: var(--dore); font-size: 0.8rem; font-weight: 500;
+      padding: 0.4rem 1rem; border-radius: 50px; margin-bottom: 1.5rem;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.2rem; line-height: 1.2; margin-bottom: 1.2rem; }
+    .hero h1 em { font-style: italic; color: var(--dore); }
+    .hero-sub { font-size: 1.05rem; color: var(--texte-light); line-height: 1.7; margin-bottom: 2rem; font-weight: 300; }
+    .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: var(--dore); color: white; padding: 0.85rem 2rem;
+      border-radius: 50px; text-decoration: none; font-weight: 500; font-size: 0.95rem;
+      transition: all 0.2s; display: inline-block;
+    }
+    .btn-primary:hover { background: #B8963E; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(201,168,76,0.3); }
+    .btn-secondary {
+      background: transparent; color: var(--texte); padding: 0.85rem 2rem;
+      border-radius: 50px; text-decoration: none; font-weight: 500;
+      border: 1.5px solid rgba(44,44,44,0.2); transition: all 0.2s; display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--dore); color: var(--dore); }
+
+    .hero-visual { display: flex; flex-direction: column; gap: 1rem; }
+    .stat-card {
+      background: white; border-radius: 16px; padding: 1.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+    .stat-icon.rose { background: rgba(242,196,206,0.4); }
+    .stat-icon.bleu { background: rgba(196,212,242,0.4); }
+    .stat-icon.dore { background: rgba(201,168,76,0.15); }
+    .stat-label { font-size: 0.8rem; color: var(--texte-light); margin-bottom: 0.2rem; }
+    .stat-value { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 600; }
+
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dore); margin-bottom: 0.8rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; line-height: 1.3; margin-bottom: 1rem; }
+    .section-desc { font-size: 1rem; color: var(--texte-light); line-height: 1.7; max-width: 560px; margin-bottom: 3rem; font-weight: 300; }
+
+    .offres { background: white; }
+    .offres-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .offre-card { border-radius: 20px; padding: 2rem; transition: transform 0.2s, box-shadow 0.2s; }
+    .offre-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+    .offre-card.rose-card { background: rgba(242,196,206,0.2); border: 1px solid rgba(242,196,206,0.5); }
+    .offre-card.bleu-card { background: rgba(196,212,242,0.2); border: 1px solid rgba(196,212,242,0.5); }
+    .offre-card.dore-card { background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.25); }
+    .offre-card.vert-card { background: rgba(196,242,210,0.2); border: 1px solid rgba(196,242,210,0.5); }
+    .offre-card.violet-card { background: rgba(220,196,242,0.2); border: 1px solid rgba(220,196,242,0.5); }
+    .offre-card.peche-card { background: rgba(242,220,196,0.2); border: 1px solid rgba(242,220,196,0.5); }
+    .offre-emoji { font-size: 2rem; margin-bottom: 1rem; }
+    .offre-titre { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 0.6rem; }
+    .offre-desc { font-size: 0.9rem; color: var(--texte-light); line-height: 1.6; font-weight: 300; }
+
+    .tarif { background: var(--fond); }
+    .tarif-card {
+      max-width: 480px; margin: 0 auto; background: white;
+      border-radius: 24px; padding: 3rem;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.08);
+      border: 1px solid rgba(201,168,76,0.2); text-align: center; position: relative; overflow: hidden;
+    }
+    .tarif-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--rose), var(--dore), var(--bleu));
+    }
+    .tarif-badge {
+      display: inline-block; background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.3); color: var(--dore);
+      font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.8rem;
+      border-radius: 50px; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .tarif-prix { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 600; line-height: 1; margin-bottom: 0.3rem; }
+    .tarif-prix span { font-size: 1.5rem; color: var(--texte-light); font-weight: 300; }
+    .tarif-periode { font-size: 0.9rem; color: var(--texte-light); margin-bottom: 2rem; }
+    .tarif-liste { list-style: none; text-align: left; margin-bottom: 2rem; }
+    .tarif-liste li { padding: 0.6rem 0; border-bottom: 1px solid rgba(0,0,0,0.05); font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+    .tarif-liste li::before { content: '✦'; color: var(--dore); font-size: 0.7rem; flex-shrink: 0; }
+    .tarif-note { font-size: 0.8rem; color: var(--texte-light); margin-top: 1rem; }
+
+    .fondatrice { background: white; }
+    .fondatrice-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1100px; margin: 0 auto; }
+    .fondatrice-quote { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-style: italic; line-height: 1.5; margin-bottom: 1.5rem; }
+    .fondatrice-quote em { color: var(--dore); font-style: normal; }
+    .fondatrice-nom { font-weight: 500; margin-bottom: 0.3rem; }
+    .fondatrice-role { font-size: 0.85rem; color: var(--texte-light); }
+    .fondatrice-visual { background: linear-gradient(135deg, rgba(242,196,206,0.3), rgba(196,212,242,0.3)); border-radius: 24px; padding: 3rem; text-align: center; }
+    .fondatrice-avatar { width: 100px; height: 100px; background: linear-gradient(135deg, var(--rose), var(--bleu)); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+    .fondatrice-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+    .fondatrice-stat { background: white; border-radius: 12px; padding: 1rem; }
+    .fondatrice-stat-val { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--dore); }
+    .fondatrice-stat-label { font-size: 0.75rem; color: var(--texte-light); }
+
+    .faq { background: var(--fond); }
+    .faq-liste { max-width: 700px; margin: 0 auto; }
+    .faq-item { background: white; border-radius: 16px; margin-bottom: 1rem; overflow: hidden; border: 1px solid rgba(0,0,0,0.05); }
+    .faq-question { padding: 1.2rem 1.5rem; font-weight: 500; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; }
+    .faq-question::after { content: '+'; color: var(--dore); font-size: 1.2rem; font-weight: 300; }
+    .faq-reponse { padding: 0 1.5rem 1.2rem; font-size: 0.9rem; color: var(--texte-light); line-height: 1.7; font-weight: 300; }
+
+    .contact { background: linear-gradient(135deg, rgba(242,196,206,0.2), rgba(196,212,242,0.2)); text-align: center; }
+    .contact-email { display: inline-block; margin-top: 1rem; font-size: 1.1rem; color: var(--dore); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(201,168,76,0.3); padding-bottom: 0.2rem; }
+
+    footer { background: var(--texte); color: rgba(255,255,255,0.6); text-align: center; padding: 2rem; font-size: 0.85rem; }
+    footer strong { color: white; }
+
+    @media (max-width: 768px) {
+      .hero-content { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero-visual { display: none; }
+      .fondatrice-inner { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">KaruMed ✦</div>
+  <ul class="nav-links">
+    <li><a href="#offres">Ce qu'on propose</a></li>
+    <li><a href="#tarif">Tarif</a></li>
+    <li><a href="#fondatrice">À propos</a></li>
+    <li><a href="#contact" class="nav-cta">Rejoindre</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div>
+      <div class="hero-badge">🌴 Guadeloupe · PASS / LAS</div>
+      <h1>La prépa médicale pensée par <em>un étudiant</em>, pour les étudiants.</h1>
+      <p class="hero-sub">KaruMed accompagne les étudiants en PASS et LAS de Guadeloupe avec des cours structurés, un assistant IA disponible 24h/24, des QCMs et une communauté soudée — tout sur Discord.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn-primary">Rejoindre la prépa →</a>
+        <a href="#offres" class="btn-secondary">Découvrir l'offre</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="stat-card">
+        <div class="stat-icon rose">🤖</div>
+        <div><div class="stat-label">Assistant IA</div><div class="stat-value">Disponible 24h/24</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon bleu">📚</div>
+        <div><div class="stat-label">Cours structurés</div><div class="stat-value">Par UE, par semestre</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon dore">👥</div>
+        <div><div class="stat-label">Places disponibles</div><div class="stat-value">110 étudiants max</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="offres" id="offres">
+  <div class="section-inner">
+    <div class="section-tag">Ce qu'on propose</div>
+    <h2 class="section-title">Tout ce dont tu as besoin<br>pour réussir.</h2>
+    <p class="section-desc">KaruMed c'est une prépa complète, accessible depuis ton téléphone ou ton ordi, 100% sur Discord.</p>
+    <div class="offres-grid">
+      <div class="offre-card rose-card">
+        <div class="offre-emoji">📚</div>
+        <div class="offre-titre">Cours structurés</div>
+        <div class="offre-desc">Des cours tapés et organisés par UE et par semestre, basés fidèlement sur les cours de tes professeurs de la fac.</div>
+      </div>
+      <div class="offre-card bleu-card">
+        <div class="offre-emoji">🤖</div>
+        <div class="offre-titre">Assistant IA 24h/24</div>
+        <div class="offre-desc">Un assistant intelligent qui répond à tes questions de cours à n'importe quelle heure, basé uniquement sur le contenu de tes professeurs.</div>
+      </div>
+      <div class="offre-card dore-card">
+        <div class="offre-emoji">📝</div>
+        <div class="offre-titre">QCMs Wooflash</div>
+        <div class="offre-desc">Des centaines de QCMs organisés par UE, accessibles à tout moment pour t'entraîner à ton rythme.</div>
+      </div>
+      <div class="offre-card vert-card">
+        <div class="offre-emoji">❓</div>
+        <div class="offre-titre">Forums par UE</div>
+        <div class="offre-desc">Des espaces dédiés pour poser tes questions, partager tes doutes et t'entraider avec les autres étudiants.</div>
+      </div>
+      <div class="offre-card violet-card">
+        <div class="offre-emoji">🎧</div>
+        <div class="offre-titre">BUV — Travail en groupe</div>
+        <div class="offre-desc">Des salons vocaux pour travailler ensemble comme à la BU — micro bloqué, caméra allumée, partage d'écran.</div>
+      </div>
+      <div class="offre-card peche-card">
+        <div class="offre-emoji">📅</div>
+        <div class="offre-titre">Planning hebdomadaire</div>
+        <div class="offre-desc">Un planning de révision structuré chaque semaine pour avancer à bon rythme sans te perdre.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tarif" id="tarif">
+  <div class="section-inner">
+    <div class="section-tag" style="text-align:center">Tarif</div>
+    <h2 class="section-title" style="text-align:center">Simple et transparent.</h2>
+    <div class="tarif-card">
+      <div class="tarif-badge">Accès complet</div>
+      <div class="tarif-prix">450<span>€</span></div>
+      <div class="tarif-periode">pour l'année complète</div>
+      <ul class="tarif-liste">
+        <li>Cours structurés par UE (S1 & S2)</li>
+        <li>Assistant IA disponible 24h/24</li>
+        <li>QCMs Wooflash illimités</li>
+        <li>Forums de questions par UE</li>
+        <li>Accès à la BUV (travail en groupe)</li>
+        <li>Planning hebdomadaire</li>
+        <li>Accès serveur Discord KaruMed</li>
+      </ul>
+      <a href="#contact" class="btn-primary" style="width:100%;text-align:center;display:block">Rejoindre KaruMed →</a>
+      <p class="tarif-note">Places limitées à 110 étudiants · Paiement sécurisé</p>
+    </div>
+  </div>
+</section>
+
+<section class="fondatrice" id="fondatrice">
+  <div class="fondatrice-inner">
+    <div>
+      <div class="section-tag">La fondatrice</div>
+      <p class="fondatrice-quote">"Je voulais créer la prépa que j'aurais <em>aimé avoir</em> quand j'ai commencé."</p>
+      <p style="color:var(--texte-light);font-size:0.95rem;line-height:1.7;margin-bottom:1.5rem;font-weight:300;">En tant qu'étudiante en LAS3 à l'Université des Antilles en Guadeloupe, j'ai vécu de l'intérieur les difficultés du parcours PASS/LAS : le manque de ressources locales, l'isolement, la pression du concours. KaruMed est née de cette expérience — une prépa pensée pour les étudiant·es d'ici, avec les outils d'aujourd'hui.</p>
+      <div class="fondatrice-nom">Nadji Boisne</div>
+      <div class="fondatrice-role">Fondatrice de KaruMed · Étudiante LAS3 · Université des Antilles</div>
+    </div>
+    <div class="fondatrice-visual">
+      <div class="fondatrice-avatar">👩🏾‍⚕️</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:0.3rem;">Nadji Boisne</div>
+      <div style="font-size:0.8rem;color:var(--texte-light);">Fondatrice · KaruMed</div>
+      <div class="fondatrice-stats">
+        <div class="fondatrice-stat"><div class="fondatrice-stat-val">LAS3</div><div class="fondatrice-stat-label">Niveau actuel</div></div>
+        <div class="fondatrice-stat"><div class="fondatrice-stat-val">2025</div><div class="fondatrice-stat-label">Création KaruMed</div></div>
+        <div class="fondatrice-stat"><div class="fondatrice-stat-val">110</div><div class="fondatrice-stat-label">Places max</div></div>
+        <div class="fondatrice-stat"><div class="fondatrice-stat-val">🌴</div><div class="fondatrice-stat-label">Guadeloupe</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="section-inner">
+    <div class="section-tag" style="text-align:center">Questions fréquentes</div>
+    <h2 class="section-title" style="text-align:center">On répond à tout.</h2>
+    <div class="faq-liste">
+      <div class="faq-item">
+        <div class="faq-question">C'est quoi KaruMed exactement ?</div>
+        <div class="faq-reponse">KaruMed est une prépa médicale en ligne pour les étudiants en PASS et LAS de Guadeloupe. Tout se passe sur Discord : cours, QCMs, assistant IA, forums et travail en groupe.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Comment fonctionne l'assistant IA ?</div>
+        <div class="faq-reponse">L'assistant IA répond à tes questions de cours directement sur Discord, 24h/24. Il se base uniquement sur les cours de tes professeurs — pas de réponses inventées.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Les cours sont basés sur quoi ?</div>
+        <div class="faq-reponse">Les cours sont structurés à partir des cours des professeurs de l'Université des Antilles, retranscrits et organisés par UE pour être clairs et directement utilisables pour le concours.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">C'est quoi la BUV ?</div>
+        <div class="faq-reponse">La BUV (Bibliothèque Universitaire Virtuelle) ce sont des salons vocaux sur Discord où tu rejoins les autres étudiants pour travailler ensemble — micro bloqué, caméra allumée, comme à la BU mais depuis chez toi.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">Comment rejoindre KaruMed ?</div>
+        <div class="faq-reponse">Il suffit de nous contacter par email. Les places sont limitées à 110 étudiants. Une fois ta demande acceptée, tu reçois un accès au serveur Discord KaruMed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div style="max-width:560px;margin:0 auto;">
+    <div class="section-tag">Contact</div>
+    <h2 class="section-title">Prêt·e à rejoindre KaruMed ?</h2>
+    <p style="color:var(--texte-light);margin-bottom:1rem;font-weight:300;">Envoie-nous un email pour réserver ta place. Les inscriptions sont ouvertes pour la rentrée 2025.</p>
+    <a href="mailto:contact@karumed.fr" class="contact-email">contact@karumed.fr</a>
+  </div>
+</section>
+
+<footer>
+  <p><strong>KaruMed</strong> · Prépa médecine Guadeloupe · PASS / LAS</p>
+  <p style="margin-top:0.5rem;">© 2025 KaruMed · Fondée par Nadji Boisne</p>
+</footer>
+
+</body>
+</html>
